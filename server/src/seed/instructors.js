@@ -61,6 +61,18 @@ async function run() {
     );
 
     const created = await Instructor.insertMany(hashedInstructors);
+    const admin = await Instructor.findOne({ username: 'admin' })
+  .select('+password');
+
+console.log('Admin found:', !!admin);
+console.log('Password hash exists:', !!admin?.password);
+
+console.log(
+  'Password matches:',
+  admin
+    ? await bcrypt.compare('S3cr3t-Admin-Pw!', admin.password)
+    : false
+);
 
     console.log(`Seeded ${created.length} instructor(s):`);
 
