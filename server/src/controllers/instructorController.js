@@ -10,7 +10,7 @@ const loginSchema = Joi.object({
 
 const searchSchema = Joi.object({
   name: Joi.string().trim().min(1).max(100)
-}).unknown(false);
+}).unknown(true);
 
 // Only return public information
 function publicProfile(doc) {

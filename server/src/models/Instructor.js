@@ -1,4 +1,6 @@
+
 import mongoose from 'mongoose';
+import bcrypt from 'bcryptjs';
 
 const instructorSchema = new mongoose.Schema(
   {
@@ -14,5 +16,14 @@ const instructorSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+// Hash passwords whenever a new password is saved.
+instructorSchema.pre('save', async function () {
+  if (!this.isModified('password')) {
+    return;
+  }
+
+  this.password = await bcrypt.hash(this.password, 12);
+});
 
 export const Instructor = mongoose.model('Instructor', instructorSchema);
